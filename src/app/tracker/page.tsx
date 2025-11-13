@@ -3,35 +3,37 @@
 import { useState, useEffect } from 'react'
 import TokenBalance from '../components/TokenBalance'
 import PendingRewards from '../components/PendingRewards'
-import {ConnectButton} from "@rainbow-me/rainbowkit";
+import {ConnectButton} from "@rainbow-me/rainbowkit"
+import { getContractAddresses, saveContractAddresses } from '@/config/contracts'
 
 export default function TrackerPage() {
     // Load persisted wallet address
     const [wallet, setWallet] = useState<string>(() =>
         typeof window !== 'undefined' ? localStorage.getItem('wallet') ?? '' : ''
     )
-    // Load persisted ERC-20 token contract address
-    const [tokenContract, setTokenContract] = useState<string>(() =>
-        typeof window !== 'undefined'
-            ? localStorage.getItem('tokenContract') ?? ''
-            : ''
-    )
-    // Load persisted mining contract address
-    const [miningContract, setMiningContract] = useState<string>(() =>
-        typeof window !== 'undefined'
-            ? localStorage.getItem('miningContract') ?? ''
-            : ''
-    )
+
+    // Load contract addresses from config
+    const [tokenContract, setTokenContract] = useState<string>(() => {
+        if (typeof window === 'undefined') return ''
+        return getContractAddresses().token
+    })
+
+    const [miningContract, setMiningContract] = useState<string>(() => {
+        if (typeof window === 'undefined') return ''
+        return getContractAddresses().mining
+    })
 
     // Persist changes back to localStorage
     useEffect(() => {
         localStorage.setItem('wallet', wallet)
     }, [wallet])
+
     useEffect(() => {
-        localStorage.setItem('tokenContract', tokenContract)
+        saveContractAddresses({ token: tokenContract as `0x${string}` | '' })
     }, [tokenContract])
+
     useEffect(() => {
-        localStorage.setItem('miningContract', miningContract)
+        saveContractAddresses({ mining: miningContract as `0x${string}` | '' })
     }, [miningContract])
 
     return (
