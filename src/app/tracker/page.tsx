@@ -8,18 +8,20 @@ import {ConnectButton} from "@rainbow-me/rainbowkit";
 export default function TrackerPage() {
     // Load persisted wallet address
     const [wallet, setWallet] = useState<string>(() =>
-        typeof window !== 'undefined' ? localStorage.getItem('wallet') ?? '' : ''
+        typeof window !== 'undefined'
+            ? localStorage.getItem('wallet') ?? process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS ?? ''
+            : ''
     )
     // Load persisted ERC-20 token contract address
     const [tokenContract, setTokenContract] = useState<string>(() =>
         typeof window !== 'undefined'
-            ? localStorage.getItem('tokenContract') ?? ''
+            ? localStorage.getItem('tokenContract') ?? process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS ?? ''
             : ''
     )
     // Load persisted mining contract address
     const [miningContract, setMiningContract] = useState<string>(() =>
         typeof window !== 'undefined'
-            ? localStorage.getItem('miningContract') ?? ''
+            ? localStorage.getItem('miningContract') ?? process.env.NEXT_PUBLIC_MINING_CONTRACT_ADDRESS ?? ''
             : ''
     )
 
