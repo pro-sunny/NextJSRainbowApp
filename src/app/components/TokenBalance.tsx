@@ -34,6 +34,7 @@ export default function TokenBalance({
     const results = useReadContracts({
         allowFailure: false,
         contracts,
+        chainId: Number(process.env.NEXT_PUBLIC_CHAIN_ID) || 8453, // Base mainnet
     })
 
     // 4) Still return nothing until after mount

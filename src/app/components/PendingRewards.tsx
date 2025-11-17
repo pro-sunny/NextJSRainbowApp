@@ -25,6 +25,7 @@ export default function PendingRewards({
         abi: miningContractABI,
         functionName: 'pendingRewards',
         args: [wallet],
+        chainId: Number(process.env.NEXT_PUBLIC_CHAIN_ID) || 8453, // Base mainnet
     })
 
     // 3) Don’t render on server
